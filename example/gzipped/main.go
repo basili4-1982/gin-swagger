@@ -5,9 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 
-	"github.com/swaggo/gin-swagger"
+	"github.com/basili4-1982/gin-swagger"
 
-	_ "github.com/swaggo/gin-swagger/example/basic/docs"
+	_ "github.com/basili4-1982/gin-swagger/example/basic/docs"
 )
 
 // @title Swagger Example API

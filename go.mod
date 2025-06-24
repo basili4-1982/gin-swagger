@@ -1,6 +1,6 @@
-module github.com/swaggo/gin-swagger
+module github.com/basili4-1982/gin-swagger
 
-go 1.17
+go 1.24
 
 require (
 	github.com/gin-contrib/gzip v0.0.6
