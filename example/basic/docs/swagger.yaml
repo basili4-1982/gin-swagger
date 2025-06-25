@@ -106,4 +106,4 @@ paths:
                 $ref: '#/components/schemas/web.APIError'
           description: Can not find ID
 servers:
-- url: petstore.swagger.io:8080/v2
+- url: localhost:8080/v2

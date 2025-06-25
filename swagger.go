@@ -1,6 +1,7 @@
 package ginSwagger
 
 import (
+	"embed"
 	htmlTemplate "html/template"
 	"net/http"
 	"os"
@@ -40,6 +41,9 @@ type Config struct {
 	Oauth2DefaultClientID    string
 	Oauth2UsePkce            bool
 }
+
+//go:embed assets/*
+var assetsFS embed.FS
 
 func (config Config) toSwaggerConfig() swaggerConfig {
 	return swaggerConfig{
@@ -151,10 +155,36 @@ func CustomWrapHandler(config *Config, handler *webdav.Handler) gin.HandlerFunc 
 		config.Title = "Swagger UI"
 	}
 
+	files, err := assetsFS.ReadDir("assets")
+	if err != nil {
+		panic(err)
+	}
+	mFiles := make(map[string][]byte)
+	for _, fileInfo := range files {
+		file, err := assetsFS.Open(filepath.Join("assets", fileInfo.Name()))
+		if err != nil {
+			return nil
+		}
+		fileStat, _ := file.Stat()
+		buff := make([]byte, fileStat.Size())
+
+		_, err = file.Read(buff)
+		if err != nil {
+			return nil
+		}
+
+		err = file.Close()
+		if err != nil {
+			return nil
+		}
+
+		mFiles[fileInfo.Name()] = buff
+	}
+
 	// create a template with name
-	index, _ := htmlTemplate.New("swagger_index.html").Parse(swaggerIndexTpl)
-	js, _ := textTemplate.New("swagger_index.js").Parse(swaggerJSTpl)
-	css, _ := textTemplate.New("swagger_index.css").Parse(swaggerStyleTpl)
+	index, _ := htmlTemplate.New("swagger_index.html").Parse(string(mFiles["index.html"]))
+	js, _ := textTemplate.New("swagger_index.js").Parse(string(mFiles["swagger-initializer.js"]))
+	css, _ := textTemplate.New("swagger_index.css").Parse(string(mFiles["index.css"]))
 
 	var matcher = regexp.MustCompile(`(.*)(index\.html|index\.css|swagger-initializer\.js|doc\.json|favicon-16x16\.png|favicon-32x32\.png|/oauth2-redirect\.html|swagger-ui\.css|swagger-ui\.css\.map|swagger-ui\.js|swagger-ui\.js\.map|swagger-ui-bundle\.js|swagger-ui-bundle\.js\.map|swagger-ui-standalone-preset\.js|swagger-ui-standalone-preset\.js\.map)[?|.]*`)
 

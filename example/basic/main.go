@@ -5,9 +5,6 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 
 	"github.com/basili4-1982/gin-swagger"
-
-	"github.com/basili4-1982/gin-swagger/example/basic/api"
-
 	_ "github.com/basili4-1982/gin-swagger/example/basic/docs"
 )
 
@@ -23,15 +20,12 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host petstore.swagger.io:8080
+// @host localhost:8080
 // @BasePath /v2
 func main() {
 	r := gin.New()
 
-	r.GET("/v2/testapi/get-string-by-int/:some_id", api.GetStringByInt)
-	r.GET("/v2/testapi/get-struct-array-by-string/:some_id", api.GetStructArrayByString)
-
-	url := ginSwagger.URL("http://petstore.swagger.io:8080/swagger/doc.json") // The url pointing to API definition
+	url := ginSwagger.URL("/swagger/doc.json") // The url pointing to API definition
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	r.Run()
