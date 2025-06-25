@@ -1,4 +1,16 @@
+<!DOCTYPE html>
 <html>
-<redoc spec-url="doc.json"></redoc>
-<script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+<head>
+    <title>{{.Title}}</title>
+    <meta charset="utf-8"/>
+    <script src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
+</head>
+<body>
+<rapi-doc
+        spec-url="doc.json"
+        theme="light"
+        render-style="read"
+        show-header="false"
+></rapi-doc>
+</body>
 </html>
