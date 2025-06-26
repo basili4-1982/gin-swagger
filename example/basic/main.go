@@ -25,8 +25,8 @@ import (
 func main() {
 	r := gin.New()
 
-	url := ginSwagger.URL("https://raw.githubusercontent.com/readmeio/oas-examples/main/	3.1/json/petstore.json") // The url pointing to API definition
+	url := ginSwagger.URL("https://gist.githubusercontent.com/seriousme/55bd4c8ba2e598e416bb5543dcd362dc/raw/cf0b86ba37bb54bf1a6bf047c0ecf2a0ce4c62e0/petstore-v3.1.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
-	r.Run(":8081")
+	r.Run(":8080")
 }
