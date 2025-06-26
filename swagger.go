@@ -3,6 +3,7 @@ package ginSwagger
 import (
 	"embed"
 	htmlTemplate "html/template"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -194,7 +195,6 @@ func CustomWrapHandler(config *Config, handler *webdav.Handler) gin.HandlerFunc 
 
 			return
 		}
-
 		matches := matcher.FindStringSubmatch(ctx.Request.RequestURI)
 
 		if len(matches) != 3 {
@@ -229,6 +229,7 @@ func CustomWrapHandler(config *Config, handler *webdav.Handler) gin.HandlerFunc 
 		case "swagger-initializer.js":
 			_ = js.Execute(ctx.Writer, config.toSwaggerConfig())
 		case "doc.json":
+			log.Println("read doc.json ", "InstanceName: ", config.InstanceName)
 			doc, err := swag.ReadDoc(config.InstanceName)
 			if err != nil {
 				ctx.AbortWithStatus(http.StatusInternalServerError)
